@@ -7,6 +7,7 @@ function makeUsersArray() {
       id: 1,
       user_name: "test-user-1",
       full_name: "Test user 1",
+      email: "woody@wood.com",
       nickname: "TU1",
       password: "password",
       date_created: "2029-01-22T16:28:32.615Z"
@@ -15,6 +16,7 @@ function makeUsersArray() {
       id: 2,
       user_name: "test-user-2",
       full_name: "Test user 2",
+      email: "notwoody@notwood.com",
       nickname: "TU2",
       password: "password",
       date_created: "2029-01-22T16:28:32.615Z"
@@ -23,6 +25,7 @@ function makeUsersArray() {
       id: 3,
       user_name: "test-user-3",
       full_name: "Test user 3",
+      email: "maybe@maybe.com",
       nickname: "TU3",
       password: "password",
       date_created: "2029-01-22T16:28:32.615Z"
@@ -31,6 +34,7 @@ function makeUsersArray() {
       id: 4,
       user_name: "test-user-4",
       full_name: "Test user 4",
+      email: "steve@evets.com",
       nickname: "TU4",
       password: "password",
       date_created: "2029-01-22T16:28:32.615Z"
@@ -44,6 +48,7 @@ function makeWoodsArray(users) {
       id: 1,
       genus: "First test wood!",
       species: "who knows",
+      common_name: 'maple',
       user_id: users[0].id,
       date_created: "2029-01-22T16:28:32.615Z"
     },
@@ -51,6 +56,7 @@ function makeWoodsArray(users) {
       id: 2,
       genus: "Second test wood!",
       species: "balsa",
+      common_name: 'balsa',
       user_id: users[1].id,
       date_created: "2029-01-22T16:28:32.615Z"
     },
@@ -58,6 +64,7 @@ function makeWoodsArray(users) {
       id: 3,
       genus: "Third test wood!",
       species: "acacia",
+      common_name: 'oak',
       user_id: users[2].id,
       date_created: "2029-01-22T16:28:32.615Z"
     },
@@ -65,6 +72,7 @@ function makeWoodsArray(users) {
       id: 4,
       genus: "Fourth test wood!",
       species: "maple",
+      common_name: 'duh, maple',
       user_id: users[3].id,
       date_created: "2029-01-22T16:28:32.615Z"
     }

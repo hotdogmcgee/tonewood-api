@@ -7,6 +7,7 @@ const  { NODE_ENV } = require('./config.js')
 const woodsRouter = require('./woods/woods-router')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/user-router')
+const submissionRouter = require('./submissions/submissions-router')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use(helmet())
 app.use('/api/woods', woodsRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/submissions', submissionRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
