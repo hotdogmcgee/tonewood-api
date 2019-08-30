@@ -1,7 +1,7 @@
 const xss = require('xss')
 
 const SubmissionsService = {
-  getById(db, id) {
+  getAllSubmissions(db) {
     return db
       .from('submissions AS sub')
       .select(
@@ -21,6 +21,7 @@ const SubmissionsService = {
         'sub.peak_hz_long_grain',
         'sub.peak_hz_cross_grain',
         'sub.comments',
+        ...userFields,
         db.raw(
           `json_strip_nulls(
             row_to_json(
@@ -43,6 +44,11 @@ const SubmissionsService = {
         'sub.user_id',
         'usr.id',
       )
+  },
+
+  getById(db, id) {
+    console.log('HELLO');
+    return SubmissionsService.getAllSubmissions(db)
       .where('sub.id', id)
       .first()
   },
@@ -56,6 +62,10 @@ const SubmissionsService = {
       .then(sub =>
         SubmissionsService.getById(db, sub.id)
       )
+  },
+
+  serializeSubmissions(submissions) {
+    return submissions.map(this.serializeSubmission)
   },
 
   serializeSubmission(sub) {
@@ -89,5 +99,15 @@ const SubmissionsService = {
     }
   }
 }
+
+const userFields = [
+  'usr.id AS user:id',
+  'usr.user_name AS user:user_name',
+  'usr.full_name AS user:full_name',
+  'usr.email AS user:email',
+  'usr.nickname AS user:nickname',
+  'usr.date_created AS user:date_created',
+  'usr.date_modified AS user:date_modified',
+]
 
 module.exports = SubmissionsService

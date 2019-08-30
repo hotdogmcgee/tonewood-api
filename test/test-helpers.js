@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const xss = require('xss')
 
 function makeUsersArray() {
   return [
@@ -10,7 +11,8 @@ function makeUsersArray() {
       email: "woody@wood.com",
       nickname: "TU1",
       password: "password",
-      date_created: "2029-01-22T16:28:32.615Z"
+      date_created: "2029-01-22T16:28:32.615Z",
+      date_modified: null,
     },
     {
       id: 2,
@@ -19,7 +21,8 @@ function makeUsersArray() {
       email: "notwoody@notwood.com",
       nickname: "TU2",
       password: "password",
-      date_created: "2029-01-22T16:28:32.615Z"
+      date_created: "2029-01-22T16:28:32.615Z",
+      date_modified: null,
     },
     {
       id: 3,
@@ -28,7 +31,8 @@ function makeUsersArray() {
       email: "maybe@maybe.com",
       nickname: "TU3",
       password: "password",
-      date_created: "2029-01-22T16:28:32.615Z"
+      date_created: "2029-01-22T16:28:32.615Z",
+      date_modified: null,
     },
     {
       id: 4,
@@ -37,7 +41,8 @@ function makeUsersArray() {
       email: "steve@evets.com",
       nickname: "TU4",
       password: "password",
-      date_created: "2029-01-22T16:28:32.615Z"
+      date_created: "2029-01-22T16:28:32.615Z",
+      date_modified: null,
     }
   ];
 }
@@ -79,6 +84,65 @@ function makeWoodsArray(users) {
   ];
 }
 
+function makeSubmissionsArray(users, woods) {
+  return [
+    {
+      id: 1,
+      date_created: '2029-01-22T16:28:32.615Z',
+      tw_id: woods[0].id,
+      user_id: users[0].id,
+      density: '1.00',
+      e_long: '1.00',
+      e_cross: '1.00',
+      velocity_sound_long: '1.00',
+      radiation_ratio: '1.00',
+      sample_length: '1.00',
+      sample_width: '1.00',
+      sample_thickness: '1.00',
+      sample_weight_grams: '1.00',
+      peak_hz_long_grain: '1.00',
+      peak_hz_cross_grain: '1.00',
+      comments: 'great!'
+    },
+    {
+      id: 2,
+      date_created: '2029-01-22T16:28:32.616Z',
+      tw_id: woods[1].id,
+      user_id: users[1].id,
+      density: '2.00',
+      e_long: '2.00',
+      e_cross: '2.00',
+      velocity_sound_long: '2.00',
+      radiation_ratio: '2.00',
+      sample_length: '2.00',
+      sample_width: '2.00',
+      sample_thickness: '2.00',
+      sample_weight_grams: '2.00',
+      peak_hz_long_grain: '2.00',
+      peak_hz_cross_grain: '2.00',
+      comments: 'okay!'
+    },
+    {
+      id: 3,
+      date_created: '2029-01-21T16:30:32.616Z',
+      tw_id: woods[2].id,
+      user_id: users[2].id,
+      density: '3.00',
+      e_long: '3.00',
+      e_cross: '3.00',
+      velocity_sound_long: '3.00',
+      radiation_ratio: '3.00',
+      sample_length: '3.00',
+      sample_width: '3.00',
+      sample_thickness: '3.00',
+      sample_weight_grams: '3.00',
+      peak_hz_long_grain: '3.00',
+      peak_hz_cross_grain: '3.00',
+      comments: 'awesome!'
+    },
+  ]
+}
+
 function makeExpectedWood(users, wood) {
   const user = users.find(user => user.id === wood.user_id);
 
@@ -95,6 +159,38 @@ function makeExpectedWood(users, wood) {
       date_created: user.date_created
     }
   };
+}
+
+function makeExpectedSubmission(users, sub) {
+  const user = users.find(user => user.id === sub.user_id)
+
+  return {
+    id: sub.id,
+    date_created: sub.date_created,
+    user_id: sub.user_id,
+    tw_id: sub.tw_id,
+    density: sub.density,
+    e_long: sub.e_long,
+    e_cross: sub.e_cross,
+    velocity_sound_long: sub.velocity_sound_long,
+    radiation_ratio: sub.radiation_ratio,
+    sample_length: sub.sample_length,
+    sample_width: sub.sample_width,
+    sample_thickness: sub.sample_thickness,
+    sample_weight_grams: sub.sample_weight_grams,
+    peak_hz_long_grain: sub.peak_hz_long_grain,
+    peak_hz_cross_grain: sub.peak_hz_cross_grain,
+    comments: xss(sub.comments),
+    user: {
+      id: user.id,
+      user_name: user.user_name,
+      email: user.email,
+      full_name: user.full_name,
+      nickname: user.nickname,
+      date_created: user.date_created,
+      date_modified: user.date_modified,
+    },
+  }
 }
 
 function makeMaliciousWood(user) {
@@ -120,7 +216,8 @@ function makeMaliciousWood(user) {
 function makeWoodsFixtures() {
   const testUsers = makeUsersArray();
   const testWoods = makeWoodsArray(testUsers);
-  return { testUsers, testWoods };
+  const testSubmissions = makeSubmissionsArray(testUsers, testWoods)
+  return { testUsers, testWoods, testSubmissions };
 }
 
 function cleanTables(db) {
@@ -147,11 +244,15 @@ function seedUsers(db, users) {
     );
 }
 
-function seedWoodsTables(db, users, woods) {
+function seedWoodsTables(db, users, woods, submissions=[]) {
   return db
     .into("tw_users")
     .insert(users)
-    .then(() => db.into("tonewoods").insert(woods));
+    .then(() => db.into("tonewoods").insert(woods)
+    )
+    .then(() =>
+      makeSubmissionsArray.length && db.into('submissions').insert(submissions)
+    )
 }
 
 function seedMaliciousWood(db, user, wood) {
@@ -177,6 +278,7 @@ module.exports = {
   makeWoodsFixtures,
   makeExpectedWood,
   makeMaliciousWood,
+  makeExpectedSubmission,
 
   cleanTables,
   seedWoodsTables,

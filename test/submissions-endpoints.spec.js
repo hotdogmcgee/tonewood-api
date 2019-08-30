@@ -5,7 +5,7 @@ const helpers = require("./test-helpers");
 describe.only("Submissions Endpoints", function() {
   let db;
 
-  const { testWoods, testUsers } = helpers.makeWoodsFixtures();
+  const { testWoods, testUsers, testSubmissions } = helpers.makeWoodsFixtures();
 
   before("make knex instance", () => {
     db = knex({
@@ -46,6 +46,9 @@ describe.only("Submissions Endpoints", function() {
         peak_hz_long_grain: '1.01',
         peak_hz_cross_grain: '1.01',
       };
+
+      //returns a string
+      // Number(4).toFixed(2)
 
       return supertest(app)
         .post('/api/submissions')
@@ -165,4 +168,78 @@ describe.only("Submissions Endpoints", function() {
           })
     })
   });
+
+  describe('GET /api/submissions', () => {
+    context('Given NO submissions', () => {
+      beforeEach(() =>
+      helpers.seedUsers(db, testUsers)
+      )
+
+
+      it(`responds with 200 and an empty list`, () => {
+        return supertest(app)
+          .get('/api/submissions')
+          .expect(200, [])
+      })
+    })
+
+    context('Given submissions DO EXIST in db', () => {
+      beforeEach('insert submissions', () =>
+        helpers.seedWoodsTables(
+          db,
+          testUsers,
+          testWoods,
+          testSubmissions,
+        )
+      )
+
+      it('responds with 200 and all of the things', () => {
+        const expectedSubmissions = testSubmissions.map(sub =>
+          helpers.makeExpectedSubmission(
+            testUsers,
+            sub,
+            testWoods,
+          )
+        )
+        return supertest(app)
+          .get('/api/submissions')
+          .expect(200, expectedSubmissions)
+      })
+    })
+  })
+  describe('GET /api/submissions/:submission_id', () => {
+
+    context('Given NO submissions', () => {
+      beforeEach(() =>
+      helpers.seedUsers(db, testUsers)
+      )
+
+      it(`responds with 404`, () => {
+        const submissionId = 123456
+        return supertest(app)
+          .get(`/api/submissions/${submissionId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(404, { error: `Submission doesn't exist` })
+      })
+
+    })
+    context(`Given submissions DO EXIST in db`, () => {
+      beforeEach(() =>
+        helpers.seedWoodsTables(db, testUsers, testWoods, testSubmissions)
+      )
+
+      it(`responds with 200 and the specified submission`, () => {
+        const submissionId = 1
+        const expectedSubmission = helpers.makeExpectedSubmission(
+          testUsers,
+          testSubmissions[submissionId - 1],
+          testWoods
+        )
+        return supertest(app)
+          .get(`/api/submissions/${submissionId}`)
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          .expect(200, expectedSubmission)
+      })
+    })
+  })
 });
