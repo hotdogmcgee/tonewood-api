@@ -1,8 +1,10 @@
+const path = require('path')
 const express = require('express')
 const WoodsService = require('./woods-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const woodsRouter = express.Router()
+const jsonBodyParser = express.json()
 
 woodsRouter
     .route('/')
@@ -12,6 +14,35 @@ woodsRouter
             res.json(WoodsService.serializeWoods(woods))
         })
         .catch(next)
+    })
+
+woodsRouter
+    .route('/')
+    .post(jsonBodyParser, (req, res, next) => {
+      const { genus, species, common_name } = req.body
+      const newWood = { genus, species, common_name }
+
+      for(const [key, value] of Object.entries(newWood)) {
+        if (value == null) {
+            return res.status(400).json({
+                error: { message: `Missing '${key}' in request body`}
+            })
+        }
+    }
+
+    newWood.user_id = req.user.id
+    
+    WoodsService.insertWood(
+      req.app.get('db'),
+            newWood
+        )
+            .then(wood => {
+                res
+                    .status(201)
+                    .location(path.posix.join(req.originalUrl + `/${wood.id}`))
+                    .json(WoodsService.serializeWood(wood))
+            })
+            .catch(next)
     })
 
 

@@ -2,7 +2,7 @@ const knex = require("knex");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe.only("Submissions Endpoints", function() {
+describe("Submissions Endpoints", function() {
   let db;
 
   const { testWoods, testUsers, testSubmissions } = helpers.makeWoodsFixtures();

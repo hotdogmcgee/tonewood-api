@@ -47,7 +47,6 @@ const SubmissionsService = {
   },
 
   getById(db, id) {
-    console.log('HELLO');
     return SubmissionsService.getAllSubmissions(db)
       .where('sub.id', id)
       .first()

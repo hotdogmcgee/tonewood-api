@@ -10,6 +10,7 @@ const WoodsService = {
             'tw.id',
             'tw.genus',
             'tw.species',
+            'tw.common_name',
             'tw.date_created',
             ...userFields
         )
@@ -27,6 +28,16 @@ const WoodsService = {
         .first()
     },
 
+    insertWood(knex, newWood) {
+        return knex
+          .insert(newWood)
+          .into('tonewoods')
+          .returning('*')
+          .then(rows => {
+            return rows[0]
+          })
+    },
+
     serializeWoods(woods) {
         return woods.map(this.serializeWood)
       },
@@ -42,33 +53,12 @@ const WoodsService = {
           id: woodData.id,
           genus: xss(woodData.genus),
           species: xss(woodData.species),
+          common_name: xss(woodData.common_name),
           date_created: woodData.date_created,
           user: woodData.user || {},
         }
       },
     
-    //   serializewoodReviews(reviews) {
-    //     return reviews.map(this.serializewoodReview)
-    //   },
-    
-    //   serializewoodReview(review) {
-    //     const reviewTree = new Treeize()
-    
-    //     // Some light hackiness to allow for the fact that `treeize`
-    //     // only accepts arrays of objects, and we want to use a single
-    //     // object.
-    //     const reviewData = reviewTree.grow([ review ]).getData()[0]
-    
-    
-    //     return {
-    //       id: reviewData.id,
-    //       rating: reviewData.rating,
-    //       wood_id: reviewData.wood_id,
-    //       text: xss(reviewData.text),
-    //       user: reviewData.user || {},
-    //       date_created: reviewData.date_created,
-    //     }
-    //   },
     }
     
     const userFields = [

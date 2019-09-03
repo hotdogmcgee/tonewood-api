@@ -11,9 +11,34 @@ const jsonBodyParser = express.json()
 submissionsRouter
     .route('/')
     .get((req, res, next) => {
+      const { user, sort } = req.query
+
+      //be able to sort by user_name?
+      if(sort) {
+        if(!['date_created', 'tw_id', 'user_name'].includes(sort)) {
+          return res.
+            status(400)
+            .send('Sort must be date_created or wood');
+        }
+      }
       SubmissionsService.getAllSubmissions(req.app.get('db'))
       .then(subs => {
-        res.json(SubmissionsService.serializeSubmissions(subs))
+
+        //currently filtered by user name, should it be user id?
+        let results = subs
+        if (user) {
+          results = subs
+          .filter(sub => sub.user.user_name.toLowerCase().includes(user.toLowerCase()))
+        }
+
+        if(sort) {
+          results
+            .sort((a, b) => {
+              return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+          }); 
+        }  
+
+        res.json(SubmissionsService.serializeSubmissions(results))
 
       })
       .catch(next)
@@ -53,8 +78,6 @@ submissionsRouter
     .get(requireAuth, (req, res) => {
       res.json(SubmissionsService.serializeSubmission(res.submission))
     })
-
-    //filter submissions by user. get all. map over based on user
 
 /* async/await syntax for promises */
 async function checkSubmissionExists(req, res, next) {
