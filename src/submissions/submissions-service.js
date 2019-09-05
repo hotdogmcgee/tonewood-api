@@ -9,6 +9,7 @@ const SubmissionsService = {
         'sub.date_created',
         'sub.user_id',
         'sub.tw_id',
+        'sub.new_tw_name',
         'sub.density',
         'sub.e_long',
         'sub.e_cross',
@@ -21,7 +22,7 @@ const SubmissionsService = {
         'sub.peak_hz_long_grain',
         'sub.peak_hz_cross_grain',
         'sub.comments',
-        ...userFields,
+        // ...userFields,
         db.raw(
           `json_strip_nulls(
             row_to_json(
@@ -69,11 +70,13 @@ const SubmissionsService = {
 
   serializeSubmission(sub) {
     const { user } = sub
+    console.log(user);
     return {
       id: sub.id,
       date_created: new Date(sub.date_created),
       user_id: sub.user_id,
       tw_id: sub.tw_id,
+      new_tw_name: sub.new_tw_name,
       density: sub.density,
       e_long: sub.e_long,
       e_cross: sub.e_cross,

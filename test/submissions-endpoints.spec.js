@@ -2,7 +2,7 @@ const knex = require("knex");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe("Submissions Endpoints", function() {
+describe.only("Submissions Endpoints", function() {
   let db;
 
   const { testWoods, testUsers, testSubmissions } = helpers.makeWoodsFixtures();
@@ -21,7 +21,7 @@ describe("Submissions Endpoints", function() {
 
   afterEach("cleanup", () => helpers.cleanTables(db));
 
-  describe(`POST /api/submissions`, () => {
+  describe.only(`POST /api/submissions`, () => {
     beforeEach("insert woods", () =>
       helpers.seedWoodsTables(db, testUsers, testWoods)
     );
@@ -34,6 +34,7 @@ describe("Submissions Endpoints", function() {
         comments: "Test new submission comment",
         tw_id: testWood.id,
         user_id: testWood.user_id,
+        new_tw_name: 'new tw name',
         density: '2.01',
         e_long: '2.01',
         e_cross: '2.01',
@@ -61,6 +62,7 @@ describe("Submissions Endpoints", function() {
 
           expect(res.body.user.id).to.eql(testUser.id);
           expect(res.body.tw_id).to.eql(newSubmission.tw_id);
+          expect(res.body.new_tw_name).to.eql(newSubmission.new_tw_name);
           expect(res.body.density).to.eql(newSubmission.density);
           expect(res.body.e_long).to.eql(newSubmission.e_long);
           expect(res.body.e_cross).to.eql(newSubmission.e_cross);
@@ -104,6 +106,7 @@ describe("Submissions Endpoints", function() {
             .then(row => {
               expect(row.user_id).to.eql(testUser.id);
               expect(row.tw_id).to.eql(newSubmission.tw_id);
+              expect(row.new_tw_name).to.eql(newSubmission.new_tw_name)
               expect(row.density).to.eql(newSubmission.density);
               expect(row.e_long).to.eql(newSubmission.e_long);
               expect(row.e_cross).to.eql(newSubmission.e_cross);
@@ -133,7 +136,7 @@ describe("Submissions Endpoints", function() {
         );
     });
 
-    const requiredFields = ['tw_id', 'user_id', 'density', 'e_long', 'e_cross', 'velocity_sound_long', 'radiation_ratio', 'sample_length', 'sample_width', 'sample_thickness', 'sample_weight_grams', 'peak_hz_long_grain', 'peak_hz_cross_grain']
+    const requiredFields = ['tw_id', 'user_id', 'new_tw_name', 'density', 'e_long', 'e_cross', 'velocity_sound_long', 'radiation_ratio', 'sample_length', 'sample_width', 'sample_thickness', 'sample_weight_grams', 'peak_hz_long_grain', 'peak_hz_cross_grain']
 
     requiredFields.forEach(field => {
         const testWood = testWoods[0]
@@ -141,7 +144,8 @@ describe("Submissions Endpoints", function() {
         const newSubmission = {
             comments: "Test new submission comment",
             tw_id: testWood.id,
-            user_id: testWood.user_id,
+            user_id: testUser.id,
+            new_tw_name: 'new tw name',
             density: '2.01',
             e_long: '2.01',
             e_cross: '2.01',
