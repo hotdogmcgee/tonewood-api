@@ -1,7 +1,8 @@
 CREATE TABLE submissions (
     id SERIAL PRIMARY KEY,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
-    tw_id INTEGER REFERENCES tonewoods(id) ON DELETE CASCADE NOT NULL,
+    tw_id INTEGER REFERENCES tonewoods(id) ON DELETE CASCADE,
+    new_tw_name TEXT DEFAULT NULL,
     user_id INTEGER REFERENCES tw_users(id) ON DELETE CASCADE NOT NULL,
     density NUMERIC(5, 2) NOT NULL,
     e_long NUMERIC(3, 2) NOT NULL,

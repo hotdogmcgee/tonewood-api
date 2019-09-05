@@ -7,9 +7,9 @@ TRUNCATE
 
 INSERT INTO tw_users (user_name, full_name, email, nickname, password)
 VALUES
-('Joe', 'Joe Schmo', 'joe@joe.com', 'Joey', 'pass-j'),
-('Cally', 'Callista Cool', 'cally@cally.com', 'hahahsdjsahbdjsabd', 'goodpassword'),
-('ilovebalsa', 'Dan Balsa', 'dan@dan.com', 'The Balsa Master', 'balsabalsabalsa');
+('Joe', 'Joe Schmo', 'joe@joe.com', 'Joey', '$2a$12$G5B2qw/JnCDrZftmviC.BOsXV9mdCVJLGjCaLHTFydCZSU2N8kM5C'),
+('Cally', 'Callista Cool', 'cally@cally.com', 'hahahsdjsahbdjsabd', '$2a$12$55f1Ak42D8S50SiWV8BoY.VI4kccM7DGR66.LLCPxWsrTFmohU9Oi'),
+('ilovebalsa', 'Dan Balsa', 'dan@dan.com', 'The Balsa Master', '$2a$12$iTe5ufv0o2YVzGoaayEh/.q6kb0XrJq4ZA6gPWCou5dIdPwmP.662');
 
 INSERT INTO tonewoods (genus, species, common_name, user_id)
 VALUES
@@ -21,7 +21,9 @@ INSERT INTO submissions (tw_id, user_id, density, e_long, e_cross, velocity_soun
 VALUES
 (1, 1, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 'great!'),
 (3, 3, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 'NICE' ),
-(2, 2, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00,  'it was decent!');
+(2, 2, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00, 2.00,  'it was decent!'),
+
+(2, 1, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 3.00, 'wowowowow' );
 
 
 COMMIT;

@@ -9,18 +9,36 @@ const jsonBodyParser = express.json()
 woodsRouter
     .route('/')
     .get((req, res, next) => {
+        const { sort } = req.query
+
+        if(sort) {
+          if(!['common_name'].includes(sort)) {
+            return res.
+              status(400)
+              .send('Sort must have common_name');
+          }
+        }
         WoodsService.getAllWoods(req.app.get('db'))
         .then(woods => {
+
+          if(sort) {
+            woods
+              .sort((a, b) => {
+                return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+            }); 
+          }  
             res.json(WoodsService.serializeWoods(woods))
         })
         .catch(next)
     })
 
+
 woodsRouter
     .route('/')
-    .post(jsonBodyParser, (req, res, next) => {
-      const { genus, species, common_name } = req.body
-      const newWood = { genus, species, common_name }
+    //auth back in
+    .post( jsonBodyParser, (req, res, next) => {
+      const { genus, species, common_name, user_id } = req.body
+      const newWood = { genus, species, common_name, user_id }
 
       for(const [key, value] of Object.entries(newWood)) {
         if (value == null) {
@@ -30,8 +48,9 @@ woodsRouter
         }
     }
 
-    newWood.user_id = req.user.id
-    
+    //how do i get user 
+    // newWood.user_id = req.user.id
+
     WoodsService.insertWood(
       req.app.get('db'),
             newWood
@@ -46,12 +65,28 @@ woodsRouter
     })
 
 
+
 woodsRouter
     .route('/:entry_id')
-    .all(requireAuth)
+    // .all(requireAuth)
     .all(checkEntryExists)
     .get((req, res) => {
         res.json(WoodsService.serializeWood(res.entry))
+    })
+
+woodsRouter
+    .route('/:entry_id/submissions')
+    // .all(requireAuth)
+    .all(checkEntryExists)
+    .get((req, res, next) => {
+      WoodsService.getSubmissionsForWood(
+        req.app.get('db'),
+        req.params.entry_id
+      )
+      .then(subs => {
+        res.json(subs.map(WoodsService.serializeWoodSubmission))
+      })
+      .catch(next)
     })
 
 /* async/await syntax for promises */

@@ -27,13 +27,14 @@ describe("Users Endpoints", function() {
     context(`User Validation`, () => {
       beforeEach("insert users", () => helpers.seedUsers(db, testUsers));
 
-      const requiredFields = ["user_name", "password", "full_name"];
+      const requiredFields = ["user_name", "password", "full_name", "email"];
 
       requiredFields.forEach(field => {
         const registerAttemptBody = {
           user_name: "test user_name",
           password: "test password",
           full_name: "test full_name",
+          email: "testemail@test.com",
           nickname: "test nickname"
         };
 
@@ -124,6 +125,19 @@ describe("Users Endpoints", function() {
           .post("/api/users")
           .send(duplicateUser)
           .expect(400, { error: `Username already taken` });
+      });
+
+      it(`responds 400 'Email already taken' when email isn't unique`, () => {
+        const duplicateUser = {
+          user_name: testUser.user_name,
+          password: "11AAaa!!",
+          full_name: "test full_name",
+          email: "ad"
+        };
+        return supertest(app)
+          .post("/api/users")
+          .send(duplicateUser)
+          .expect(400, { error: `Email already in use` });
       });
     });
 
