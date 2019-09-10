@@ -11,11 +11,12 @@ VALUES
 ('Cally', 'Callista Cool', 'cally@cally.com', 'hahahsdjsahbdjsabd', '$2a$12$55f1Ak42D8S50SiWV8BoY.VI4kccM7DGR66.LLCPxWsrTFmohU9Oi'),
 ('ilovebalsa', 'Dan Balsa', 'dan@dan.com', 'The Balsa Master', '$2a$12$iTe5ufv0o2YVzGoaayEh/.q6kb0XrJq4ZA6gPWCou5dIdPwmP.662');
 
-INSERT INTO tonewoods (genus, species, common_name, user_id)
+INSERT INTO tonewoods (common_name, genus, species, hardness, user_id)
 VALUES
-('First test wood!', 'and then', 'maple', 1),
-('balsa', 'very balsa', 'def balsa', 3),
-('green', 'tree', 'green tree!', 2);
+('Other', 'genus', 'species', 'Softwood', 1),
+('White Spruce', 'Picea', 'glauca', 'Softwood', 1),
+('Engelmann Spruce', 'Picea', 'engelmannii', 'Softwood', 3),
+('Western Red Cedar', 'Thuja', 'plicata', 'Softwood', 2);
 
 INSERT INTO submissions (tw_id, user_id, density, e_long, e_cross, velocity_sound_long, radiation_ratio, sample_length, sample_width, sample_thickness, sample_weight_grams, peak_hz_long_grain, peak_hz_cross_grain, comments)
 VALUES

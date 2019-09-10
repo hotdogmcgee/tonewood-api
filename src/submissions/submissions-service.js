@@ -70,7 +70,6 @@ const SubmissionsService = {
 
   serializeSubmission(sub) {
     const { user } = sub
-    console.log(user);
     return {
       id: sub.id,
       date_created: new Date(sub.date_created),
