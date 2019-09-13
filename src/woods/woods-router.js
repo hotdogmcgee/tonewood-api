@@ -11,25 +11,26 @@ woodsRouter
     .get((req, res, next) => {
         const { sort } = req.query
 
-        if(sort) {
-          if(!['common_name'].includes(sort)) {
-            return res.
-              status(400)
-              .send('Sort must have common_name');
-          }
-        }
-        WoodsService.getAllWoods(req.app.get('db'))
-        .then(woods => {
+        // if(sort) {
+        //   if(!['common_name'].includes(sort)) {
+        //     return res.
+        //       status(400)
+        //       .send('Sort must have common_name');
+        //   }
+        // }
+        // WoodsService.getAllWoods(req.app.get('db'))
+        // .then(woods => {
 
-          if(sort) {
-            woods
-              .sort((a, b) => {
-                return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-            }); 
-          }  
-            res.json(WoodsService.serializeWoods(woods))
-        })
-        .catch(next)
+        //   if(sort) {
+        //     woods
+        //       .sort((a, b) => {
+        //         return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+        //     }); 
+        //   }  
+        //     res.json(WoodsService.serializeWoods(woods))
+        // })
+        res.send('hello')
+        // .catch(next)
     })
 
 
