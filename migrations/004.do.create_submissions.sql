@@ -12,7 +12,7 @@ CREATE TABLE submissions (
     sample_length NUMERIC(5, 2) NOT NULL,
     sample_width NUMERIC(5, 2) NOT NULL,
     sample_thickness NUMERIC(3, 2) NOT NULL,
-    sample_weight_grams NUMERIC(5, 2) NOT NULL,
+    sample_weight NUMERIC(5, 2) NOT NULL,
     peak_hz_long_grain NUMERIC(5, 2) NOT NULL,
     peak_hz_cross_grain NUMERIC(5, 2) NOT NULL,
     comments TEXT

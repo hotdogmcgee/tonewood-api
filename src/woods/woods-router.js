@@ -29,7 +29,6 @@ woodsRouter
           }  
             res.json(WoodsService.serializeWoods(woods))
         })
-        // res.send('hello')
         .catch(next)
     })
 
