@@ -100,7 +100,7 @@ function makeSubmissionsArray(users, woods) {
       sample_length: '1.00',
       sample_width: '1.00',
       sample_thickness: '1.00',
-      sample_weight_grams: '1.00',
+      sample_weight: '1.00',
       peak_hz_long_grain: '1.00',
       peak_hz_cross_grain: '1.00',
       comments: 'great!'
@@ -119,7 +119,7 @@ function makeSubmissionsArray(users, woods) {
       sample_length: '2.00',
       sample_width: '2.00',
       sample_thickness: '2.00',
-      sample_weight_grams: '2.00',
+      sample_weight: '2.00',
       peak_hz_long_grain: '2.00',
       peak_hz_cross_grain: '2.00',
       comments: 'okay!'
@@ -138,7 +138,7 @@ function makeSubmissionsArray(users, woods) {
       sample_length: '3.00',
       sample_width: '3.00',
       sample_thickness: '3.00',
-      sample_weight_grams: '3.00',
+      sample_weight: '3.00',
       peak_hz_long_grain: '3.00',
       peak_hz_cross_grain: '3.00',
       comments: 'awesome!'
@@ -181,7 +181,7 @@ function makeExpectedSubmission(users, sub) {
     sample_length: sub.sample_length,
     sample_width: sub.sample_width,
     sample_thickness: sub.sample_thickness,
-    sample_weight_grams: sub.sample_weight_grams,
+    sample_weight: sub.sample_weight,
     peak_hz_long_grain: sub.peak_hz_long_grain,
     peak_hz_cross_grain: sub.peak_hz_cross_grain,
     comments: xss(sub.comments),

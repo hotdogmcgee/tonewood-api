@@ -43,7 +43,7 @@ describe.only("Submissions Endpoints", function() {
         sample_length: '4.01',
         sample_width: '1.01',
         sample_thickness: '1.01',
-        sample_weight_grams: '1.01',
+        sample_weight: '1.01',
         peak_hz_long_grain: '1.01',
         peak_hz_cross_grain: '1.01',
       };
@@ -77,8 +77,8 @@ describe.only("Submissions Endpoints", function() {
           expect(res.body.sample_thickness).to.eql(
             newSubmission.sample_thickness
           );
-          expect(res.body.sample_weight_grams).to.eql(
-            newSubmission.sample_weight_grams
+          expect(res.body.sample_weight).to.eql(
+            newSubmission.sample_weight
           );
           expect(res.body.peak_hz_long_grain).to.eql(
             newSubmission.peak_hz_long_grain
@@ -117,8 +117,8 @@ describe.only("Submissions Endpoints", function() {
               expect(row.sample_length).to.eql(newSubmission.sample_length);
               expect(row.sample_width).to.eql(newSubmission.sample_width);
               expect(row.sample_thickness).to.eql(newSubmission.sample_thickness);
-              expect(row.sample_weight_grams).to.eql(
-                newSubmission.sample_weight_grams
+              expect(row.sample_weight).to.eql(
+                newSubmission.sample_weight
               );
               expect(row.peak_hz_long_grain).to.eql(
                 newSubmission.peak_hz_long_grain
@@ -136,7 +136,7 @@ describe.only("Submissions Endpoints", function() {
         );
     });
 
-    const requiredFields = ['tw_id', 'user_id', 'new_tw_name', 'density', 'e_long', 'e_cross', 'velocity_sound_long', 'radiation_ratio', 'sample_length', 'sample_width', 'sample_thickness', 'sample_weight_grams', 'peak_hz_long_grain', 'peak_hz_cross_grain']
+    const requiredFields = ['tw_id', 'user_id', 'new_tw_name', 'density', 'e_long', 'e_cross', 'velocity_sound_long', 'radiation_ratio', 'sample_length', 'sample_width', 'sample_thickness', 'sample_weight', 'peak_hz_long_grain', 'peak_hz_cross_grain']
 
     requiredFields.forEach(field => {
         const testWood = testWoods[0]
@@ -154,7 +154,7 @@ describe.only("Submissions Endpoints", function() {
             sample_length: '4.01',
             sample_width: '1.01',
             sample_thickness: '1.01',
-            sample_weight_grams: '1.01',
+            sample_weight: '1.01',
             peak_hz_long_grain: '1.01',
             peak_hz_cross_grain: '1.01',
           };
