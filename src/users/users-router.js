@@ -51,11 +51,6 @@ UsersService.hasUserWithEmail(req.app.get("db"), email)
       if (hasUserWithUserName)
         return res.status(400).json({ error: `Username already taken` });
 
-      // return UsersService.hasUserWithEmail(req.app.get("db"), email)
-      //   .then(hasUserWithEmail => {
-      //     if (hasUserWithEmail)
-      //       return res.status(400).json({ error: `Email already in use` });})
-
       return UsersService.hashPassword(password).then(hashedPassword => {
         const newUser = {
           user_name,
@@ -82,34 +77,5 @@ UsersService.hasUserWithEmail(req.app.get("db"), email)
     .catch(next);
   })
   
-
-
-  // UsersService.hasUserWithEmail(req.app.get("db"), email)
-  // .then(hasUserWithEmail => {
-  //   if (hasUserWithEmail)
-  //     return res.status(400).json({ error: `Email already in use` });
-
-  //   return UsersService.hashPassword(password).then(hashedPassword => {
-  //     const newUser = {
-  //       user_name,
-  //       password: hashedPassword,
-  //       email,
-  //       full_name,
-  //       nickname,
-  //       date_created: "now()"
-  //     };
-
-  //     return UsersService.insertUser(req.app.get("db"), newUser).then(
-  //       user => {
-  //         res
-  //           .status(201)
-  //           .location(path.posix.join(req.originalUrl, `/${user.id}`))
-  //           .json(UsersService.serializeUser(user));
-  //       }
-  //     );
-  //   });
-  // })
-  // .catch(next);
-// });
 
 module.exports = usersRouter;
