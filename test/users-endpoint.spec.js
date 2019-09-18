@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe("Users Endpoints", function() {
+describe.only("Users Endpoints", function() {
   let db;
 
   const { testUsers } = helpers.makeWoodsFixtures();
@@ -31,7 +31,7 @@ describe("Users Endpoints", function() {
 
       requiredFields.forEach(field => {
         const registerAttemptBody = {
-          user_name: "test user_name",
+          user_name: "test thing",
           password: "test password",
           full_name: "test full_name",
           email: "testemail@test.com",
@@ -54,7 +54,8 @@ describe("Users Endpoints", function() {
         const userShortPassword = {
           user_name: "test user_name",
           password: "1234567",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -66,7 +67,8 @@ describe("Users Endpoints", function() {
         const userLongPassword = {
           user_name: "test user_name",
           password: "*".repeat(73),
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -78,7 +80,8 @@ describe("Users Endpoints", function() {
         const userPasswordStartsSpaces = {
           user_name: "test user_name",
           password: " 1Aa!2Bb@",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -92,7 +95,8 @@ describe("Users Endpoints", function() {
         const userPasswordEndsSpaces = {
           user_name: "test user_name",
           password: "1Aa!2Bb@ ",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -105,7 +109,8 @@ describe("Users Endpoints", function() {
         const userPasswordNotComplex = {
           user_name: "test user_name",
           password: "11AAaabb",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -119,7 +124,8 @@ describe("Users Endpoints", function() {
         const duplicateUser = {
           user_name: testUser.user_name,
           password: "11AAaa!!",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")
@@ -128,15 +134,15 @@ describe("Users Endpoints", function() {
       });
 
       it(`responds 400 'Email already taken' when email isn't unique`, () => {
-        const duplicateUser = {
-          user_name: testUser.user_name,
+        const duplicateEmail = {
+          user_name: 'sadsadsadsad',
           password: "11AAaa!!",
           full_name: "test full_name",
-          email: "ad"
+          email: testUser.email
         };
         return supertest(app)
           .post("/api/users")
-          .send(duplicateUser)
+          .send(duplicateEmail)
           .expect(400, { error: `Email already in use` });
       });
     });
@@ -146,7 +152,8 @@ describe("Users Endpoints", function() {
         const newUser = {
           user_name: "test user_name",
           password: "11AAaa!!",
-          full_name: "test full_name"
+          full_name: "test full_name",
+          email: 'test@test.com'
         };
         return supertest(app)
           .post("/api/users")

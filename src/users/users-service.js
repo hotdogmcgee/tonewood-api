@@ -23,6 +23,12 @@ const UsersService = {
       .first()
       .then(user => !!user);
   },
+  hasUserWithEmail(db, email) {
+    return db("tw_users")
+      .where({ email })
+      .first()
+      .then(user => !!user);
+  },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
@@ -49,7 +55,7 @@ const UsersService = {
   validateEmail(email) {
     if (email.length < 4) {
       return "Email be longer than 4 characters";
-    }
+    } 
   },
 
   hashPassword(password) {

@@ -2,7 +2,7 @@ const knex = require("knex");
 const app = require("../src/app");
 const helpers = require("./test-helpers");
 
-describe.only("Submissions Endpoints", function() {
+describe("Submissions Endpoints", function() {
   let db;
 
   const { testWoods, testUsers, testSubmissions } = helpers.makeWoodsFixtures();
@@ -21,7 +21,7 @@ describe.only("Submissions Endpoints", function() {
 
   afterEach("cleanup", () => helpers.cleanTables(db));
 
-  describe.only(`POST /api/submissions`, () => {
+  describe(`POST /api/submissions`, () => {
     beforeEach("insert woods", () =>
       helpers.seedWoodsTables(db, testUsers, testWoods)
     );
