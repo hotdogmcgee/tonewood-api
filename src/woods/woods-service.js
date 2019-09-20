@@ -12,6 +12,7 @@ const WoodsService = {
             'tw.species',
             'tw.common_name',
             'tw.date_created',
+            'tw.hardness',
             ...userFields,
             db.raw(
               'count(DISTINCT sub) AS number_of_submissions'
@@ -110,6 +111,7 @@ const WoodsService = {
           species: xss(woodData.species),
           common_name: xss(woodData.common_name),
           date_created: woodData.date_created,
+          hardness: woodData.hardness,
           user: woodData.user || {},
           number_of_submissions: Number(woodData.number_of_submissions) || 0
         }
