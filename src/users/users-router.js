@@ -60,6 +60,7 @@ UsersService.hasUserWithEmail(req.app.get("db"), email)
           nickname,
           date_created: "now()"
         };
+        console.log(newUser.hashedPassword);
 
         
 
