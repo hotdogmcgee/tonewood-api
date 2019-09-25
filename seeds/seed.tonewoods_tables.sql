@@ -17,6 +17,7 @@ VALUES
 ('White Spruce', 'Picea', 'glauca', 'Softwood', 1),
 ('Engelmann Spruce', 'Picea', 'engelmannii', 'Softwood', 3),
 ('Western Red Cedar', 'Thuja', 'plicata', 'Softwood', 2);
+('American Ash', 'Fraxinus', 'americana', 'Hardwood', 3)
 
 INSERT INTO submissions (tw_id, user_id, density, e_long, e_cross, velocity_sound_long, radiation_ratio, sample_length, sample_width, sample_thickness, sample_weight, peak_hz_long_grain, peak_hz_cross_grain, comments)
 VALUES

@@ -37,8 +37,8 @@ woodsRouter
     .route('/')
     //auth back in
     .post( jsonBodyParser, (req, res, next) => {
-      const { genus, species, common_name, user_id } = req.body
-      const newWood = { genus, species, common_name, user_id }
+      const { genus, species, common_name, hardness, user_id  } = req.body
+      const newWood = { genus, species, common_name, hardness, user_id }
 
       for(const [key, value] of Object.entries(newWood)) {
         if (value == null) {
